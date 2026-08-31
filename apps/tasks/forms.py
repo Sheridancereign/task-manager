@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from .models import Task
 
+
 class TaskForm(forms.ModelForm):
     PRIORITY_CHOICES = [
         (1, "Low Priority"),
@@ -19,7 +20,7 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['name', 'priority', 'deadline']
+        fields = ["name", "priority", "deadline"]
         widgets = {
             "name": forms.TextInput(
                 attrs={
@@ -29,9 +30,7 @@ class TaskForm(forms.ModelForm):
                     "required": True,
                 }
             ),
-            "deadline": forms.DateInput(
-                attrs={"class": "form-control", "type": "date"}
-            ),
+            "deadline": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
         }
 
     def clean_name(self):

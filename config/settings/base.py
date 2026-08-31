@@ -1,4 +1,5 @@
 """Base Django settings, shared across all environments."""
+
 from pathlib import Path
 
 from decouple import config

@@ -3,7 +3,6 @@ from django.db import models
 from django.urls import reverse
 
 
-
 class Project(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,

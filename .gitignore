@@ -31,4 +31,5 @@ media/
 htmlcov/
 
 # Docker
-*.pid
+*.pid.ruff_cache/
+.ruff_cache/

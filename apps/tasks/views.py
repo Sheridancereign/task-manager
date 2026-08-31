@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -6,8 +8,9 @@ from django.views import View
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from apps.projects.models import Project
-from .models import Task
+
 from .forms import TaskForm
+from .models import Task
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -16,9 +19,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     template_name = "tasks/task_form.html"
 
     def dispatch(self, request, *args, **kwargs):
-        self.project = get_object_or_404(
-            Project, pk=kwargs["project_pk"], owner=request.user
-        )
+        self.project = get_object_or_404(Project, pk=kwargs["project_pk"], owner=request.user)
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -26,9 +27,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save()
 
         if self.request.htmx:
-            return TemplateResponse(
-                self.request, "tasks/_task_row.html", {"task": self.object}
-            )
+            return TemplateResponse(self.request, "tasks/_task_row.html", {"task": self.object})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -61,9 +60,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         if self.request.htmx:
-            return TemplateResponse(
-                self.request, "tasks/_task_row.html", {"task": self.object}
-            )
+            return TemplateResponse(self.request, "tasks/_task_row.html", {"task": self.object})
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -106,3 +103,19 @@ class TaskToggleDoneView(LoginRequiredMixin, View):
         task.is_done = not task.is_done
         task.save(update_fields=["is_done"])
         return TemplateResponse(request, "tasks/_task_row.html", {"task": task})
+
+
+class TaskReorderView(LoginRequiredMixin, View):
+    def post(self, request, project_pk):
+        project = get_object_or_404(Project, pk=project_pk, owner=request.user)
+        data = json.loads(request.body)
+        task_ids = data.get("task_ids", [])
+
+        tasks = {t.id: t for t in project.tasks.filter(id__in=task_ids)}
+        for index, task_id in enumerate(task_ids):
+            task = tasks.get(int(task_id))
+            if task:
+                task.priority = index
+                task.save(update_fields=["priority"])
+
+        return HttpResponse(status=204)

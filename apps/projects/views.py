@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .forms import ProjectForm
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -8,21 +7,27 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
+
+from .forms import ProjectForm
 from .models import Project
+
 
 class OwnerQuerysetMixin(LoginRequiredMixin):
     def get_queryset(self):
         return super().get_queryset().filter(owner=self.request.user)
+
 
 class ProjectListView(OwnerQuerysetMixin, ListView):
     model = Project
     context_object_name = "projects"
     template_name = "projects/project_list.html"
 
+
 class ProjectDetailView(OwnerQuerysetMixin, DetailView):
     model = Project
     context_object_name = "project"
     template_name = "projects/project_detail.html"
+
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
@@ -33,10 +38,12 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
+
 class ProjectUpdateView(OwnerQuerysetMixin, UpdateView):
     model = Project
     fields = ["name"]
     template_name = "projects/project_form.html"
+
 
 class ProjectDeleteView(OwnerQuerysetMixin, DeleteView):
     model = Project
