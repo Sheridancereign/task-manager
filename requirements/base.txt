@@ -1,0 +1,9 @@
+Django==5.2.*
+django-allauth==65.*
+django-htmx==1.19.*
+django-crispy-forms==2.3
+crispy-bootstrap5==2024.10
+psycopg[binary]==3.2.*
+python-decouple==3.8
+gunicorn==23.*
+whitenoise==6.*
