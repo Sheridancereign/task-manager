@@ -1,0 +1,33 @@
+<li class="list-group-item d-flex align-items-center task-row py-3" id="task-{{ task.pk }}" style="border-left: 3px solid #ffcccc;">
+    <input type="checkbox"
+           class="form-check-input me-3" style="width: 1.2rem; height: 1.2rem;"
+           {% if task.is_done %}checked{% endif %}
+           hx-post="{% url 'tasks:toggle' task.pk %}"
+           hx-target="#task-{{ task.pk }}"
+           hx-swap="outerHTML">
+
+    <span class="flex-grow-1 {% if task.is_done %}text-muted text-decoration-line-through{% endif %}">
+        {{ task.name }}
+    </span>
+
+    {% if task.deadline %}
+        <span class="badge bg-light text-dark me-3 border">{{ task.deadline|date:"M d, Y" }}</span>
+    {% endif %}
+
+    <div class="task-actions text-muted border-start ps-2 ms-2">
+        <span class="cursor-grab me-2" title="Reorder">↕</span>
+        <button class="btn btn-sm text-secondary p-0 me-2" title="Edit"
+                hx-get="{% url 'tasks:update' task.pk %}"
+                hx-target="#task-{{ task.pk }}"
+                hx-swap="outerHTML">
+            ✎
+        </button>
+        <button class="btn btn-sm text-secondary p-0" title="Delete"
+                hx-delete="{% url 'tasks:delete' task.pk %}"
+                hx-target="#task-{{ task.pk }}"
+                hx-swap="outerHTML"
+                hx-confirm="Are you sure you want to delete this task?">
+            🗑
+        </button>
+    </div>
+</li>

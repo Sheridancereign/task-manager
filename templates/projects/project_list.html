@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+<div class="container d-flex flex-column align-items-center mt-4">
+
+    {% for project in projects %}
+    <div class="card shadow-sm mb-5 w-100" style="max-width: 800px; border-radius: 8px; overflow: hidden;">
+
+        <div class="card-header text-white d-flex justify-content-between align-items-center p-3"
+             style="background: linear-gradient(to bottom, #4a77b5, #335994); border-bottom: none;">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-calendar3"></i>
+                <h4 class="mb-0">{{ project.name }}</h4>
+            </div>
+            <div class="project-actions">
+                <a href="{% url 'projects:update' project.pk %}" class="text-white text-decoration-none me-2" title="Edit">✎</a>
+                <a href="{% url 'projects:delete' project.pk %}" class="text-white text-decoration-none" title="Delete">🗑</a>
+            </div>
+        </div>
+
+        <div class="bg-light p-3 border-bottom">
+            <form action="javascript:void(0);"
+                  hx-post="{% url 'tasks:create' project.pk %}"
+                  hx-target="#task-list-{{ project.pk }}"
+                  hx-swap="beforeend"
+                  hx-on::after-request="if(event.detail.successful){ this.reset(); const empty = document.getElementById('empty-state-{{ project.pk }}'); if(empty) empty.remove(); }"
+                  class="row g-2 align-items-center mb-0">
+                {% csrf_token %}
+
+                <div class="col-12 col-md-5">
+                    <input type="text" name="name" class="form-control"
+                           placeholder="Start typing here to create a task..." required>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <select name="priority" class="form-select">
+                        <option value="1">Low Priority</option>
+                        <option value="2" selected>Medium Priority</option>
+                        <option value="3">High Priority</option>
+                    </select>
+                </div>
+
+                <div class="col-6 col-md-2">
+                    <input type="date" name="deadline" class="form-control">
+                </div>
+
+                <div class="col-12 col-md-2">
+                    <button type="submit" class="btn btn-success w-100"
+                            style="background: linear-gradient(to bottom, #5cb85c, #449d44); border-color: #398439;">
+                        Add Task
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <ul class="list-group list-group-flush" id="task-list-{{ project.pk }}">
+            {% for task in project.tasks.all %}
+                {% include "tasks/_task_row.html" %}
+            {% empty %}
+                <li class="list-group-item text-muted text-center py-3" id="empty-state-{{ project.pk }}">
+                    No tasks yet. Create one above!
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% empty %}
+    <div class="text-center w-100 mt-5">
+        <h3 class="text-muted">You don't have any projects yet.</h3>
+    </div>
+    {% endfor %}
+
+    <div class="mt-2 mb-5">
+        <a href="{% url 'projects:create' %}" class="btn btn-primary px-5 py-2 fs-5"
+           style="background: linear-gradient(to bottom, #4a77b5, #335994); border-color: #284a7e; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            <span class="fw-bold me-2">+</span> Add TODO List
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+<li class="list-group-item py-2 bg-light" id="task-{{ task.pk }}">
+    <form hx-post="{% url 'tasks:update' task.pk %}"
+          hx-target="#task-{{ task.pk }}"
+          hx-swap="outerHTML"
+          class="d-flex align-items-center w-100 mb-0">
+        {% csrf_token %}
+        <input type="text" name="name" class="form-control me-2" value="{{ task.name }}" required>
+        <select name="priority" class="form-select me-2" style="max-width: 150px;">
+            <option value="1" {% if task.priority == 1 %}selected{% endif %}>Low Priority</option>
+            <option value="2" {% if task.priority == 2 %}selected{% endif %}>Medium Priority</option>
+            <option value="3" {% if task.priority == 3 %}selected{% endif %}>High Priority</option>
+        </select>
+        <input type="date" name="deadline" class="form-control me-2" style="max-width: 150px;"
+               value="{{ task.deadline|date:'Y-m-d' }}">
+        <button type="submit" class="btn btn-sm btn-success me-1">Save</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.reload()">
+            Cancel
+        </button>
+    </form>
+</li>

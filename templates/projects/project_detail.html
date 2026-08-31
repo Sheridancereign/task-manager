@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">{{ project.name }}</h1>
+    <a href="{% url 'projects:list' %}" class="btn btn-outline-secondary btn-sm">← Back to projects</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        Tasks
+    </div>
+    <ul class="list-group list-group-flush" id="task-list">
+        {% for task in project.tasks.all %}
+            {% include "tasks/_task_row.html" %}
+        {% empty %}
+        <li class="list-group-item text-muted">No tasks yet</li>
+        {% endfor %}
+    </ul>
+    <div class="card-footer">
+        <a href="{% url 'tasks:create' project.pk %}" class="btn btn-sm btn-success">+ Add Task</a>
+    </div>
+</div>
+{% endblock %}
