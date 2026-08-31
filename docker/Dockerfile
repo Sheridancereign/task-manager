@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements/ requirements/
 ARG REQUIREMENTS_FILE=requirements/dev.txt
-RUN pip install --no-cache-dir -r ${REQUIREMENTS_FILE}
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
