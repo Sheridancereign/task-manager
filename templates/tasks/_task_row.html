@@ -18,7 +18,6 @@
     {% endif %}
 
     <div class="task-actions text-muted border-start ps-2 ms-2">
-        <span class="cursor-grab me-2" title="Reorder">↕</span>
         <button class="btn btn-sm text-secondary p-0 me-2" title="Edit"
                 hx-get="{% url 'tasks:update' task.pk %}"
                 hx-target="#task-{{ task.pk }}"
