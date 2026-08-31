@@ -12,7 +12,7 @@ from .forms import TaskForm
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ["name", "priority", "deadline"]
+    form_class = TaskForm
     template_name = "tasks/task_form.html"
 
     def dispatch(self, request, *args, **kwargs):

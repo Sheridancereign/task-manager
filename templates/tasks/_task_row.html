@@ -1,4 +1,7 @@
-<li class="list-group-item d-flex align-items-center task-row py-3" id="task-{{ task.pk }}" style="border-left: 3px solid #ffcccc;">
+<li class="list-group-item d-flex align-items-center task-row py-3"
+    id="task-{{ task.pk }}"
+    data-priority="{{ task.priority }}"
+    style="border-left: 3px solid #ccc;">
     <input type="checkbox"
            class="form-check-input me-3" style="width: 1.2rem; height: 1.2rem;"
            {% if task.is_done %}checked{% endif %}

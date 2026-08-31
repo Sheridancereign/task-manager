@@ -12,7 +12,7 @@ class Task(models.Model):
         default=0,
         help_text="Lower number = higher priority (used for manual ordering).",
     )
-    deadline = models.DateTimeField(null=True, blank=True)
+    deadline = models.DateField(null=True, blank=True)
     is_done = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

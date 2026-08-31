@@ -1,94 +1,54 @@
-body {
-    background: linear-gradient(135deg, #d4a359 0%, #ca8028 100%);
-    min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
-.project-card {
-    border-radius: 10px !important;
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.15) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
-}
-
-.project-header {
-    background: linear-gradient(to bottom, #4f7ca8 0%, #355883 100%) !important;
-    border-bottom: 1px solid #284466 !important;
-    color: #ffffff;
-}
-
-.add-task-block {
-    background-color: #e0e0e0 !important;
-    border-bottom: 1px solid #cccccc !important;
-}
-
-.add-task-btn {
-    background: linear-gradient(to bottom, #62b962 0%, #449d44 100%) !important;
-    border: 1px solid #398439 !important;
-    color: #ffffff !important;
-    font-weight: 600;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
-.add-task-btn:hover {
-    background: linear-gradient(to bottom, #51a351 0%, #378237 100%) !important;
-}
-
-.task-list-group {
-    background-color: #ffffff;
-    position: relative;
-}
-
 .task-row {
-    position: relative;
-    padding-left: 20px !important;
-    border-bottom: 1px solid #eef0f2 !important;
     transition: background-color 0.15s ease-in-out;
-}
-
-.task-row::before {
-    content: "";
-    position: absolute;
-    left: 42px;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background-color: #f2c2c2;
-    z-index: 1;
-}
-
-.task-row .form-check-input {
-    z-index: 2;
+    cursor: default;
 }
 
 .task-row:hover {
-    background-color: #fffeb8 !important;
+    background-color: #fdfdcb;
 }
 
 .task-actions {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
 }
 
 .task-row:hover .task-actions {
-    display: flex;
+    opacity: 1;
 }
 
 .cursor-grab {
     cursor: grab;
-    font-weight: bold;
 }
 
-.btn-add-todo {
-    background: linear-gradient(to bottom, #4f7ca8 0%, #355883 100%) !important;
-    border: 1px solid #284466 !important;
-    color: #ffffff !important;
-    font-weight: bold;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+.cursor-grab:active {
+    cursor: grabbing;
 }
 
-.btn-add-todo:hover {
-    background: linear-gradient(to bottom, #426a91 0%, #2a476c 100%) !important;
+.task-actions button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.task-actions button:hover {
+    color: #333 !important;
+}
+
+
+.task-row[data-priority="3"] {
+    border-left-color: #d9534f !important; /* high */
+}
+
+.task-row[data-priority="2"] {
+    border-left-color: #f0ad4e !important; /* medium */
+}
+
+.task-row[data-priority="1"] {
+    border-left-color: #5cb85c !important; /* low */
+}
+
+.card-header a.text-white:hover {
+    text-decoration: underline !important;
+    opacity: 0.9;
 }
