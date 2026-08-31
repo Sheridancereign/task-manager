@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from .forms import ProjectForm
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -7,8 +8,6 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-
-
 from .models import Project
 
 class OwnerQuerysetMixin(LoginRequiredMixin):
@@ -27,7 +26,7 @@ class ProjectDetailView(OwnerQuerysetMixin, DetailView):
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
-    fields = ["name"]
+    form_class = ProjectForm
     template_name = "projects/project_form.html"
 
     def form_valid(self, form):

@@ -7,6 +7,7 @@ from django.views.generic import CreateView, DeleteView, UpdateView
 
 from apps.projects.models import Project
 from .models import Task
+from .forms import TaskForm
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -41,7 +42,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ["name", "priority", "deadline"]
+    form_class = TaskForm
     template_name = "tasks/task_form.html"
 
     def get_queryset(self):
